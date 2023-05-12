@@ -35,16 +35,10 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this, factory)[VideoPlayerViewModel::class.java]
 
-        player = ExoPlayer.Builder(this)
-            .build()
-        viewBinding.playView.player = player
-        viewModel.getVideosList()
-
         viewModel.videos.observe(this) {
             viewModel.totalItems = it.size
             setExoPlayer()
         }
-        exoplayerListener()
         clickListeners()
     }
 
@@ -142,35 +136,7 @@ class MainActivity : AppCompatActivity() {
             viewBinding.playView.player = player
             viewModel.getVideosList()
         }
-
-        player?.addListener(object : Player.Listener {
-            override fun onIsPlayingChanged(isPlaying: Boolean) {
-                if (isPlaying) {
-                    viewBinding.btnPause.visibility = View.VISIBLE
-                    viewBinding.btnPlay.visibility = View.GONE
-                    viewBinding.progressBar.visibility = View.GONE
-                } else {
-                    viewBinding.btnPause.visibility = View.GONE
-                    viewBinding.btnPlay.visibility = View.VISIBLE
-                }
-            }
-
-            override fun onPlaybackStateChanged(@PlaybackStateCompat.State state: Int) {
-                if (state == Player.STATE_IDLE) {
-                    val error: ExoPlaybackException? = player!!.playerError
-                    if (error != null) {
-                        Toast.makeText(this@MainActivity,"Can't play this video",Toast.LENGTH_LONG).show()
-                        viewBinding.progressBar.visibility = View.GONE
-                    }
-                }
-                else if (state == Player.STATE_ENDED) {
-                    viewBinding.btnPause.visibility = View.GONE
-                    viewBinding.btnPlay.visibility = View.VISIBLE
-                    viewModel.isVideoEnded = true
-                } else
-                    viewModel.isVideoEnded = false
-            }
-        })
+        exoplayerListener()
     }
 
     public override fun onPause() {
