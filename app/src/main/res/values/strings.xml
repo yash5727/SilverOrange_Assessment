@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SilverOrange_Assessment</string>
+    <string name="toolbar_name">Video Player</string>
 </resources>
