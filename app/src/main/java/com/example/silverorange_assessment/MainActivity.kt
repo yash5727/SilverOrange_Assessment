@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         clickListeners()
     }
 
-    private fun clickListeners(){
+    private fun clickListeners() {
         viewBinding.btnPause.setOnClickListener {
             player?.playWhenReady = false
         }
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun exoplayerListener(){
+    private fun exoplayerListener() {
         player?.addListener(object : Player.Listener {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
                 if (isPlaying) {
@@ -90,11 +90,14 @@ class MainActivity : AppCompatActivity() {
                 if (state == Player.STATE_IDLE) {
                     val error: ExoPlaybackException? = player!!.playerError
                     if (error != null) {
-                        Toast.makeText(this@MainActivity,"Can't play this video",Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Can't play this video",
+                            Toast.LENGTH_LONG
+                        ).show()
                         viewBinding.progressBar.visibility = View.GONE
                     }
-                }
-                else if (state == Player.STATE_ENDED) {
+                } else if (state == Player.STATE_ENDED) {
                     viewBinding.btnPause.visibility = View.GONE
                     viewBinding.btnPlay.visibility = View.VISIBLE
                     viewModel.isVideoEnded = true
@@ -152,5 +155,4 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
         releasePlayer()
     }
-
 }
