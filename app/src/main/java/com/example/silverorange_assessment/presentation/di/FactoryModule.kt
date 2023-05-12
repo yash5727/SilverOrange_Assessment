@@ -20,6 +20,7 @@ class FactoryModule {
     ): VideoPlayerViewModelFactory {
         return VideoPlayerViewModelFactory(
             application,
-            getVideosUseCase)
+            getVideosUseCase
+        )
     }
 }

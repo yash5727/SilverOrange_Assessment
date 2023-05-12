@@ -20,10 +20,12 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    //binding
     private val viewBinding by lazy(LazyThreadSafetyMode.NONE) {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
+    //injecting viewmodel and factory
     @Inject
     lateinit var factory: VideoPlayerViewModelFactory
     private lateinit var viewModel: VideoPlayerViewModel
@@ -35,6 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this, factory)[VideoPlayerViewModel::class.java]
 
+        //livedata observer
         viewModel.videos.observe(this) {
             viewModel.totalItems = it.size
             setExoPlayer()
@@ -42,11 +45,13 @@ class MainActivity : AppCompatActivity() {
         clickListeners()
     }
 
+    //button clickListeners
     private fun clickListeners() {
         viewBinding.btnPause.setOnClickListener {
             player?.playWhenReady = false
         }
         viewBinding.btnPlay.setOnClickListener {
+            //if video is ended, restart it
             if (viewModel.isVideoEnded) {
                 player?.seekTo(0)
             }
@@ -56,12 +61,14 @@ class MainActivity : AppCompatActivity() {
             player?.play()
         }
         viewBinding.btnNext.setOnClickListener {
+            //check for last item
             viewBinding.btnNext.isClickable = ++viewModel.currentItem != (viewModel.totalItems - 1)
             viewBinding.btnPrev.isClickable = viewModel.currentItem != 0
             viewModel.playbackPosition = 0L
             setExoPlayer()
         }
         viewBinding.btnPrev.setOnClickListener {
+            //check for first item
             viewBinding.btnPrev.isClickable = --viewModel.currentItem != 0
             viewBinding.btnNext.isClickable = viewModel.currentItem != (viewModel.totalItems - 1)
             viewModel.playbackPosition = 0L
@@ -90,6 +97,7 @@ class MainActivity : AppCompatActivity() {
                 if (state == Player.STATE_IDLE) {
                     val error: ExoPlaybackException? = player!!.playerError
                     if (error != null) {
+                        //show error if video cannot be played
                         Toast.makeText(
                             this@MainActivity,
                             "Can't play this video",
@@ -125,6 +133,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //release exo player when app is in background
     private fun releasePlayer() {
         viewBinding.btnPlay.visibility = View.VISIBLE
         viewBinding.btnPause.visibility = View.GONE
@@ -138,6 +147,7 @@ class MainActivity : AppCompatActivity() {
     public override fun onResume() {
         super.onResume()
         if (player == null) {
+            //initialize exo player
             player = ExoPlayer.Builder(this)
                 .build()
             viewBinding.playView.player = player

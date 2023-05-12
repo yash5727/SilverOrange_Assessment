@@ -22,6 +22,7 @@ class NetModule {
             .baseUrl(BuildConfig.BASE_URL)
             .build()
     }
+
     @Singleton
     @Provides
     fun provideVideoPlayerApiService(retrofit: Retrofit): VideoPlayerService {

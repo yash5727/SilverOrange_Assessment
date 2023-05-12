@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.transform
 
 class VideoPlayerRepositoryImpl(
     private val remoteDatasource: RemoteDatasource
-): VideoPlayerRepository {
+) : VideoPlayerRepository {
     override suspend fun getVideosList(): Flow<List<VideoPlayerItem>> {
         return remoteDatasource.getVideosList().transform {
             this.emit(it)

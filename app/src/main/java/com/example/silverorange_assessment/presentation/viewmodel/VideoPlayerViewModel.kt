@@ -31,7 +31,7 @@ class VideoPlayerViewModel(
 
     fun getVideosList() = viewModelScope.launch {
         getVideosUseCase.execute().catch {
-
+            //show error if cannot get data from API
         }.collect {
             withContext(Main) {
                 videos.value = it.sortedBy { obj ->

@@ -8,7 +8,7 @@ import com.example.silverorange_assessment.domain.usecase.GetVideosUseCase
 class VideoPlayerViewModelFactory(
     private val app: Application,
     private val getVideosUseCase: GetVideosUseCase
-): ViewModelProvider.Factory {
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return VideoPlayerViewModel(
             app,

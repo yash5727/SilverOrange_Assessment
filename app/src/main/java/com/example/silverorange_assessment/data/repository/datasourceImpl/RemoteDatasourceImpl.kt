@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.flow
 
 class RemoteDatasourceImpl(
     private val videoPlayerService: VideoPlayerService
-): RemoteDatasource {
-    override suspend fun getVideosList() = flow  {
+) : RemoteDatasource {
+    override suspend fun getVideosList() = flow {
         val response = videoPlayerService.getVideosList()
         emit(response)
     }
