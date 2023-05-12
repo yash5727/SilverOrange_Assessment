@@ -17,6 +17,13 @@ class VideoPlayerViewModel(
 ) : AndroidViewModel(app) {
     var videos: MutableLiveData<List<VideoPlayerItem>> = MutableLiveData()
 
+    var isVideoEnded = false
+
+    var currentItem = 0
+    var totalItems = 0
+
+    var playbackPosition = 0L
+
     fun getVideosList() = viewModelScope.launch {
         getVideosUseCase.execute().catch {
 
