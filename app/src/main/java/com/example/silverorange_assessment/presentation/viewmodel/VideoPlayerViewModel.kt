@@ -1,7 +1,8 @@
 package com.example.silverorange_assessment.presentation.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.silverorange_assessment.data.model.VideoPlayerItem
 import com.example.silverorange_assessment.domain.usecase.GetVideosUseCase
@@ -11,8 +12,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class VideoPlayerViewModel(
+    app: Application,
     private val getVideosUseCase: GetVideosUseCase
-) : ViewModel() {
+) : AndroidViewModel(app) {
     var videos: MutableLiveData<List<VideoPlayerItem>> = MutableLiveData()
 
     fun getVideosList() = viewModelScope.launch {
