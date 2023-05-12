@@ -67,6 +67,10 @@ class MainActivity : AppCompatActivity() {
             viewModel.playbackPosition = 0L
             setExoPlayer()
         }
+
+        viewBinding.playerViewLayout.setOnClickListener {
+            viewBinding.playbackControls.isVisible = !viewBinding.playbackControls.isVisible
+        }
     }
 
     private fun exoplayerListener(){
